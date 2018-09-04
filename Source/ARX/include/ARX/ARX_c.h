@@ -227,6 +227,12 @@ extern "C" {
 	 */
     ARX_EXTERN bool arwUpdateAR();
     
+    // Gilberto: Gets number of found features
+    ARX_EXTERN int arwGetFeatureCount();
+    
+    // Gilberto: Gets number of found featuresin a specific trackable
+    ARX_EXTERN int arwGetTrackableFeatureCount(int trackableId);
+    
     // ----------------------------------------------------------------------------------------------------
 #pragma mark  Video stream retrieval and/or drawing.
     // ----------------------------------------------------------------------------------------------------

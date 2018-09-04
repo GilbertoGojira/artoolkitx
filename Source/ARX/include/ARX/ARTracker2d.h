@@ -75,6 +75,7 @@ public:
     bool isRunning() override;
     bool update(AR2VideoBufferT *buff, std::vector<ARTrackable *>& trackables) override;
     bool update(AR2VideoBufferT *buff0, AR2VideoBufferT *buff1, std::vector<ARTrackable *>& trackables) override;
+
     bool stop() override;
     void terminate() override;
     
@@ -85,6 +86,9 @@ public:
     bool saveImageDatabase(std::string filename);
     
     void setDetectorType(int detectorType);
+    
+    int getFeatureCount();
+    int getTrackableFeatureCount(int trackableId);
 private:
     int m_cameraXSize;
     int m_cameraYSize;

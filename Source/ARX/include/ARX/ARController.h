@@ -115,6 +115,7 @@ private:
 #endif
 #if HAVE_2D
     bool doTwoDMarkerDetection;
+    bool doTwoDFeatureCount;
     std::shared_ptr<ARTracker2d> m_twoDTracker;
 #endif
     int m_error;
@@ -362,6 +363,10 @@ public:
 	 * @return				true if update completed successfully, false if an error occurred
 	 */
 	bool update();
+    
+    int getFeatureCount();
+    
+    int getTrackableFeatureCount(int trackabkeId);
 
     /**
      * Populates the provided buffer with the current contents of the debug image.

@@ -268,6 +268,18 @@ bool arwUpdateAR()
     return gARTK->update();
 }
 
+int arwGetFeatureCount()
+{
+    if (!gARTK) return 0;
+    return gARTK->getFeatureCount();
+}
+
+int arwGetTrackableFeatureCount(int trackableId)
+{
+    if (!gARTK) return 0;
+    return gARTK->getTrackableFeatureCount(trackableId);
+}
+
 bool arwUpdateTexture32(uint32_t *buffer)
 {
     if (!gARTK) return false;
@@ -821,6 +833,7 @@ extern "C" {
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwGetVideoParamsStereo(JNIEnv *env, jobject obj, jintArray widthL, jintArray heightL, jintArray pixelSizeL, jobjectArray pixelFormatStringL, jintArray widthR, jintArray heightR, jintArray pixelSizeR, jobjectArray  pixelFormatStringR));
 	JNIEXPORT jboolean JNICALL JNIFUNCTION(arwCapture(JNIEnv *env, jobject obj));
 	JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateAR(JNIEnv *env, jobject obj));
+    JNIEXPORT jint JNICALL JNIFUNCTION(arwGetFeatureCount());
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateTexture32(JNIEnv *env, jobject obj, jbyteArray pinArray));
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateTextureStereo32(JNIEnv *env, jobject obj, jbyteArray pinArrayL, jbyteArray pinArrayR));
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwDrawVideoInit(JNIEnv *env, jobject obj, jint videoSourceIndex));
@@ -1017,6 +1030,11 @@ JNIEXPORT jboolean JNICALL JNIFUNCTION(arwCapture(JNIEnv *env, jobject obj))
 JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateAR(JNIEnv *env, jobject obj)) 
 {
 	return arwUpdateAR();
+}
+
+JNIEXPORT jint JNICALL JNIFUNCTION(arwGetFeatureCount())
+{
+    return arwGetFeatureCount();
 }
 
 JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateTexture32(JNIEnv *env, jobject obj, jbyteArray pinArray))

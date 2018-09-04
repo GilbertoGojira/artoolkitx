@@ -76,6 +76,7 @@ ARController::ARController() :
 #endif
 #if HAVE_2D
     doTwoDMarkerDetection(false),
+    doTwoDFeatureCount(false),
 #endif
     m_error(ARX_ERROR_NONE)
 {
@@ -383,7 +384,7 @@ bool ARController::update()
     }
 #endif
 #if HAVE_2D
-    if (doTwoDMarkerDetection) {
+    if (doTwoDMarkerDetection || doTwoDFeatureCount) {
         if (!m_twoDTracker->isRunning()) {
             if (!m_videoSourceIsStereo) ret = m_twoDTracker->start(m_videoSource0->getCameraParameters(), m_videoSource0->getPixelFormat());
             else ret = m_twoDTracker->start(m_videoSource0->getCameraParameters(), m_videoSource0->getPixelFormat(), m_videoSource1->getCameraParameters(), m_videoSource1->getPixelFormat(), m_transL2R);
@@ -400,6 +401,17 @@ done:
     ARLOGd("ARX::ARController::update(): done.\n");
     
     return ret;
+}
+
+int ARController::getFeatureCount()
+{
+    doTwoDFeatureCount = true;
+    return m_twoDTracker->getFeatureCount();
+}
+
+int ARController::getTrackableFeatureCount(int trackableId)
+{
+    return m_twoDTracker->getTrackableFeatureCount(trackableId);
 }
 
 bool ARController::stopRunning()

@@ -69,9 +69,13 @@ public:
     
     void ProcessFrameData(unsigned char * frame);
     
+    int getFeatureCount();
+    
     void RemoveAllMarkers();
     void AddMarker(unsigned char* buff, std::string fileName, int width, int height, int uid, float scale);
     void AddMarker(std::string imageName, int uid, float scale);
+    
+    int GetTrackableFeatureCount(int trackableId);
     
     float* GetTrackablePose(int trackableId);
     

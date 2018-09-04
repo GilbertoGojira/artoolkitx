@@ -67,6 +67,10 @@ private:
     cv::Mat _K;
     
     int _selectedFeatureDetectorType;
+    
+    // Gilberto: Store feature count of current frame
+    int _featureCount;
+    
 public:
     PlanarTrackerImpl()
     {
@@ -415,6 +419,7 @@ public:
     
     void ProcessFrame(cv::Mat frame)
     {
+        _featureCount = 0;
         //std::cout << "Building pyramid" << std::endl;
         BuildImagePyramid(frame);
         //std::cout << "Drawing detected markers to mask" << std::endl;
@@ -424,7 +429,7 @@ public:
             cv::pyrDown(frame, detectionFrame, cv::Size(frame.cols/featureDetectPyramidLevel, frame.rows/featureDetectPyramidLevel));
             cv::Mat featureMask = CreateFeatureMask(detectionFrame);
             std::vector<cv::KeyPoint> newFrameFeatures = _featureDetector.DetectFeatures(detectionFrame, featureMask);
-            
+            _featureCount = newFrameFeatures.size();
             if(CanMatchNewFeatures(static_cast<int>(newFrameFeatures.size()))) {
                 //std::cout << "Matching new features" << std::endl;
                 cv::Mat newFrameDescriptors = _featureDetector.CalcDescriptors(detectionFrame, newFrameFeatures);
@@ -460,6 +465,11 @@ public:
         }
         SwapImagePyramid();
         _frameCount++;
+    }
+    
+    int getFeatureCount()
+    {
+        return _featureCount;
     }
     
     void RemoveAllMarkers()
@@ -607,6 +617,15 @@ public:
         }
     }
     
+    int GetTrackableFeatureCount(int trackableId)
+    {
+        for(int i=0;i<_trackables.size(); i++) {
+            if(_trackables[i]._id == trackableId)
+                return _trackables[i]._featurePoints.size();
+        }
+        return NULL;
+    }
+    
     float* GetTrackablePose(int trackableId)
     {
         for(int i=0;i<_trackables.size(); i++) {
@@ -716,6 +735,11 @@ void PlanarTracker::ProcessFrameData(unsigned char * frame)
     _trackerImpl->ProcessFrameData(frame);
 }
 
+int PlanarTracker::getFeatureCount()
+{
+    return _trackerImpl->getFeatureCount();
+}
+
 void PlanarTracker::RemoveAllMarkers()
 {
     _trackerImpl->RemoveAllMarkers();
@@ -729,6 +753,11 @@ void PlanarTracker::AddMarker(unsigned char* buff, std::string fileName, int wid
 void PlanarTracker::AddMarker(std::string imageName, int uid, float scale)
 {
     _trackerImpl->AddMarker(imageName, uid, scale);
+}
+
+int PlanarTracker::GetTrackableFeatureCount(int trackableId)
+{
+    return _trackerImpl->GetTrackableFeatureCount(trackableId);
 }
 
 float* PlanarTracker::GetTrackablePose(int trackableId)

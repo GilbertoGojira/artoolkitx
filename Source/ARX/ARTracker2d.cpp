@@ -292,5 +292,15 @@ void ARTracker2d::setDetectorType(int detectorType)
         m_2DTracker->SetFeatureDetector(detectorType);
     }
 }
+
+int ARTracker2d::getFeatureCount()
+{
+    return m_2DTracker->getFeatureCount();
+}
+
+int ARTracker2d::getTrackableFeatureCount(int trackableId)
+{
+    return m_2DTracker->GetTrackableFeatureCount(trackableId);
+}
 #endif // HAVE_2D
 
