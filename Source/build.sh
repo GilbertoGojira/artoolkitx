@@ -119,9 +119,8 @@ if [ "$OS" = "Darwin" ] ; then
 # macOS
 if [ $BUILD_MACOS ] ; then
     if [ ! -d "depends/macos/Frameworks/opencv2.framework" ] ; then
-        curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-macos.zip" -o opencv2.zip
+        curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-macos.zip" -o opencv/macos/opencv2.zip
         unzip opencv2.zip -d depends/macos/Frameworks
-        rm opencv2.zip
     fi
 
     if [ ! -d "build-macos" ] ; then
@@ -148,11 +147,11 @@ fi
 # iOS
 if [ $BUILD_IOS ] ; then
 
-    
+
     if [ ! -d "depends/ios/Frameworks/opencv2.framework" ] ; then
-        curl "https://phoenixnap.dl.sourceforge.net/project/opencvlibrary/opencv-ios/3.4.1/opencv-3.4.1-ios-framework.zip" -o opencv2.zip
-        unzip opencv2.zip -d depends/ios/Frameworks
-        rm opencv2.zip
+        mkdir -p opencv/ios
+        curl "https://phoenixnap.dl.sourceforge.net/project/opencvlibrary/opencv-ios/3.4.1/opencv-3.4.1-ios-framework.zip" -o opencv/ios/opencv2.zip
+        unzip opencv/ios/opencv2.zip -d depends/ios/Frameworks
     fi
 
     if [ ! -d "build-ios" ] ; then
@@ -198,9 +197,9 @@ if [ "$OS" = "Linux" ] ; then
 fi
 
 if [ ! -d "depends/android/include/opencv2" ] ; then
-    curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-android.tgz" -o opencv2.tgz
-    tar xzf opencv2.tgz --strip-components=1 -C depends/android
-    rm opencv2.tgz
+    mkdir -p opencv/android
+    curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-android.tgz" -o opencv/android/opencv2.tgz
+    tar xzf opencv/android/opencv2.tgz --strip-components=1 -C depends/android
 fi
 
 if [ ! -d "build-android" ] ; then
@@ -231,7 +230,7 @@ else
         cd $OURDIR
         cp -v "../Examples/Square tracking example/Android/ARSquareTracking/ARSquareTrackingExample/build/outputs/apk/release/"ARSquareTrackingExample-release-unsigned.apk ../Examples/
         cp -v "../Examples/Square tracking example with OSG/Android/ARSquareTracking/ARSquareTrackingExample/build/outputs/apk/release/"ARSquareTrackingExample-release-unsigned.apk ../Examples/ARSquareTrackingExampleOSG-release-unsigned.apk
-        
+
         echo "Building example AR2dTracking as APK"
         cd $OURDIR
         cd "../Examples/2d tracking example/Android/AR2DTracking_Proj"; ./gradlew -q assembleRelease;
@@ -240,7 +239,7 @@ else
 
     fi
 fi
-    
+
 fi
 # /BUILD_ANDROID
 
@@ -310,14 +309,14 @@ if [ $BUILD_LINUX ] ; then
             else
                 echo "Downloading prebuilt OpenCV"
                 if [ ! -d "depends/linux/include/opencv2" ] ; then
-                    curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-linux-x86_64.tgz" -o opencv2.tgz
-                    tar xzf opencv2.tgz --strip-components=1 -C depends/linux
-                    rm opencv2.tgz
+                    mkdir -p opencv/linux
+                    curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-linux-x86_64.tgz" -o opencv/linux/opencv2.tgz
+                    tar xzf opencv/linux/opencv2.tgz --strip-components=1 -C depends/linux
                 fi
             fi
         fi
-    fi    
-    
+    fi
+
 
 	if [ ! -d "build-linux-x86_64" ] ; then
 		mkdir build-linux-x86_64
@@ -376,9 +375,9 @@ if [ $BUILD_LINUX_RASPBIAN ] ; then
         fi
 
         if [ ! -d "depends/linux-raspbian/include/opencv2" ] ; then
-            curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-linux-raspbian-armhf.tgz" -o opencv2.tgz
-            tar xzf opencv2.tgz --strip-components=1 -C depends/linux-raspbian
-            rm opencv2.tgz
+            mkdir -p opencv/linux-raspbian
+            curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-linux-raspbian-armhf.tgz" -o opencv/linux-raspbian/opencv2.tgz
+            tar xzf opencv/linux-raspbian/opencv2.tgz --strip-components=1 -C depends/linux-raspbian
         fi
 
         if [ ! -d "build-linux-raspbian" ] ; then
@@ -442,9 +441,9 @@ if [ $BUILD_WINDOWS ] ; then
     fi
 
     if [ ! -d "depends/windows/include/opencv2" ] ; then
-        curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-windows.tgz" -o opencv2.tgz
-        tar xzf opencv2.tgz --strip-components=1 -C depends/windows
-        rm opencv2.tgz
+        mkdir -p opencv/windows
+        curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-windows.tgz" -o opencv/windows/opencv2.tgz
+        tar xzf opencv/windows/opencv2.tgz --strip-components=1 -C depends/windows
     fi
 
     cd build-windows
