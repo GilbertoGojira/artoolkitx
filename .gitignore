@@ -3,6 +3,7 @@ Examples/**/build*/
 Examples/*.apk
 Examples/*.app
 Examples/*.exe
+Source/opencv
 
 ### Packaging
 Source/packaging/linux/cpack/
