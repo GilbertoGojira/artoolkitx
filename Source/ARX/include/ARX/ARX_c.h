@@ -230,8 +230,15 @@ extern "C" {
     // Gilberto: Gets number of found features
     ARX_EXTERN int arwGetFeatureCount();
     
-    // Gilberto: Gets number of found featuresin a specific trackable
-    ARX_EXTERN int arwGetTrackableFeatureCount(int trackableId);
+    // Gilberto: Gets number of found features in a specific trackable
+    ARX_EXTERN int arwGetFeaturePointCount(int trackableId);
+    
+    // Gilberto: Gets number of found corner in a specific trackable
+    ARX_EXTERN int arwGetCornerPointCount(int trackableId);
+    
+    ARX_EXTERN bool arwGetFeaturePoints(int trackableId, uint32_t *buffer);
+    
+    ARX_EXTERN bool arwGetCornerPoints(int trackableId, uint32_t *buffer);
     
     // ----------------------------------------------------------------------------------------------------
 #pragma mark  Video stream retrieval and/or drawing.
@@ -626,6 +633,10 @@ extern "C" {
 	 * @return floating-point value of option, or NAN if an error occurred.
      */
     ARX_EXTERN float arwGetTrackableOptionFloat(int trackableUID, int option);
+    
+    ARX_EXTERN bool arwLoad2dTrackableDatabase(const char *filename);
+    
+    ARX_EXTERN bool arwSave2dTrackableDatabase(const char *filename);
     
     // ----------------------------------------------------------------------------------------------------
 #pragma mark  Utility

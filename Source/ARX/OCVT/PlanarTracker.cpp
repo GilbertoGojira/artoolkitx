@@ -472,6 +472,28 @@ public:
         return _featureCount;
     }
     
+    bool getFeaturePoints(int trackableId, uint32_t *buffer)
+    {
+        for(int i=0;i<_trackables.size(); i++) {
+            if(_trackables[i]._id == trackableId){
+                memcpy(buffer, _trackables[i]._featurePoints.data(), _trackables[i]._featurePoints.size());
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    bool getCornerPoints(int trackableId, uint32_t *buffer)
+    {
+        for(int i=0;i<_trackables.size(); i++) {
+            if(_trackables[i]._id == trackableId){
+                memcpy(buffer, _trackables[i]._cornerPoints.data(), _trackables[i]._cornerPoints.size());
+                return true;
+            }
+        }
+        return false;
+    }
+    
     void RemoveAllMarkers()
     {
         for(int i=0;i<_trackables.size(); i++) {
@@ -617,13 +639,22 @@ public:
         }
     }
     
-    int GetTrackableFeatureCount(int trackableId)
+    int GetFeaturePointCount(int trackableId)
     {
         for(int i=0;i<_trackables.size(); i++) {
             if(_trackables[i]._id == trackableId)
                 return _trackables[i]._featurePoints.size();
         }
-        return NULL;
+        return 0;
+    }
+    
+    int GetCornerPointCount(int trackableId)
+    {
+        for(int i=0;i<_trackables.size(); i++) {
+            if(_trackables[i]._id == trackableId)
+                return _trackables[i]._cornerPoints.size();
+        }
+        return 0;
     }
     
     float* GetTrackablePose(int trackableId)
@@ -740,6 +771,16 @@ int PlanarTracker::getFeatureCount()
     return _trackerImpl->getFeatureCount();
 }
 
+bool PlanarTracker::getFeaturePoints(int trackableId, uint32_t *buffer)
+{
+    return _trackerImpl->getFeaturePoints(trackableId, buffer);
+}
+
+bool PlanarTracker::getCornerPoints(int trackableId, uint32_t *buffer)
+{
+    return _trackerImpl->getCornerPoints(trackableId, buffer);
+}
+
 void PlanarTracker::RemoveAllMarkers()
 {
     _trackerImpl->RemoveAllMarkers();
@@ -755,9 +796,14 @@ void PlanarTracker::AddMarker(std::string imageName, int uid, float scale)
     _trackerImpl->AddMarker(imageName, uid, scale);
 }
 
-int PlanarTracker::GetTrackableFeatureCount(int trackableId)
+int PlanarTracker::GetFeaturePointCount(int trackableId)
 {
-    return _trackerImpl->GetTrackableFeatureCount(trackableId);
+    return _trackerImpl->GetFeaturePointCount(trackableId);
+}
+
+int PlanarTracker::GetCornerPointCount(int trackableId)
+{
+    return _trackerImpl->GetCornerPointCount(trackableId);
 }
 
 float* PlanarTracker::GetTrackablePose(int trackableId)

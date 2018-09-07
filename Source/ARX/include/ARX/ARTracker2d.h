@@ -88,7 +88,10 @@ public:
     void setDetectorType(int detectorType);
     
     int getFeatureCount();
-    int getTrackableFeatureCount(int trackableId);
+    int GetFeaturePointCount(int trackableId);
+    int GetCornerPointCount(int trackableId);
+    bool getFeaturePoints(int trackableId, uint32_t *buffer);
+    bool getCornerPoints(int trackableId, uint32_t *buffer);
 private:
     int m_cameraXSize;
     int m_cameraYSize;

@@ -409,9 +409,26 @@ int ARController::getFeatureCount()
     return m_twoDTracker->getFeatureCount();
 }
 
-int ARController::getTrackableFeatureCount(int trackableId)
+int ARController::getFeaturePointCount(int trackableId)
 {
-    return m_twoDTracker->getTrackableFeatureCount(trackableId);
+    return m_twoDTracker->GetFeaturePointCount(trackableId);
+}
+
+int ARController::getCornerPointCount(int trackableId)
+{
+    return m_twoDTracker->GetCornerPointCount(trackableId);
+}
+
+bool ARController::getFeaturePoints(int trackableId, uint32_t *buffer)
+{
+    doTwoDFeatureCount = true;
+    return m_twoDTracker->getFeaturePoints(trackableId, buffer);
+}
+
+bool ARController::getCornerPoints(int trackableId, uint32_t *buffer)
+{
+    doTwoDFeatureCount = true;
+    return m_twoDTracker->getCornerPoints(trackableId, buffer);
 }
 
 bool ARController::stopRunning()

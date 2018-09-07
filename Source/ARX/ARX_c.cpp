@@ -274,10 +274,28 @@ int arwGetFeatureCount()
     return gARTK->getFeatureCount();
 }
 
-int arwGetTrackableFeatureCount(int trackableId)
+int arwGetFeaturePointCount(int trackableId)
 {
     if (!gARTK) return 0;
-    return gARTK->getTrackableFeatureCount(trackableId);
+    return gARTK->getFeaturePointCount(trackableId);
+}
+
+int arwGetCornerPointCount(int trackableId)
+{
+    if (!gARTK) return 0;
+    return gARTK->getFeaturePointCount(trackableId);
+}
+
+bool arwGetFeaturePoints(int trackableId, uint32_t *buffer)
+{
+    if (!gARTK) return false;
+    return gARTK->getFeaturePoints(trackableId, buffer);
+}
+
+bool arwGetCornerPoints(int trackableId, uint32_t *buffer)
+{
+    if (!gARTK) return false;
+    return gARTK->getCornerPoints(trackableId, buffer);
 }
 
 bool arwUpdateTexture32(uint32_t *buffer)

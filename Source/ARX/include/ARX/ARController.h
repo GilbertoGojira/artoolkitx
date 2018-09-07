@@ -366,7 +366,13 @@ public:
     
     int getFeatureCount();
     
-    int getTrackableFeatureCount(int trackabkeId);
+    int getFeaturePointCount(int trackabkeId);
+    
+    int getCornerPointCount(int trackabkeId);
+    
+    bool getFeaturePoints(int trackableId, uint32_t *buffer);
+    
+    bool getCornerPoints(int trackableId, uint32_t *buffer);
 
     /**
      * Populates the provided buffer with the current contents of the debug image.
