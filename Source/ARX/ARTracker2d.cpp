@@ -308,14 +308,14 @@ int ARTracker2d::GetCornerPointCount(int trackableId)
     return m_2DTracker->GetCornerPointCount(trackableId);
 }
 
-bool ARTracker2d::getFeaturePoints(int trackableId, uint32_t *buffer)
+uint32_t *ARTracker2d::getFeaturePoints(int trackableId)
 {
-    return m_2DTracker->getFeaturePoints(trackableId, buffer);
+    return m_2DTracker->getFeaturePoints(trackableId);
 }
 
-bool ARTracker2d::getCornerPoints(int trackableId, uint32_t *buffer)
+uint32_t *ARTracker2d::getCornerPoints(int trackableId)
 {
-    return m_2DTracker->getCornerPoints(trackableId, buffer);
+    return m_2DTracker->getCornerPoints(trackableId);
 }
 #endif // HAVE_2D
 

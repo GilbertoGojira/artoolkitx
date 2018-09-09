@@ -236,9 +236,9 @@ extern "C" {
     // Gilberto: Gets number of found corner in a specific trackable
     ARX_EXTERN int arwGetCornerPointCount(int trackableId);
     
-    ARX_EXTERN bool arwGetFeaturePoints(int trackableId, uint32_t *buffer);
+    ARX_EXTERN uint32_t *arwGetFeaturePoints(int trackableId);
     
-    ARX_EXTERN bool arwGetCornerPoints(int trackableId, uint32_t *buffer);
+    ARX_EXTERN uint32_t *arwGetCornerPoints(int trackableId);
     
     // ----------------------------------------------------------------------------------------------------
 #pragma mark  Video stream retrieval and/or drawing.

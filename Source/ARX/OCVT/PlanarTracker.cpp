@@ -472,26 +472,20 @@ public:
         return _featureCount;
     }
     
-    bool getFeaturePoints(int trackableId, uint32_t *buffer)
+    uint32_t *getFeaturePoints(int trackableId)
     {
-        for(int i=0;i<_trackables.size(); i++) {
-            if(_trackables[i]._id == trackableId){
-                memcpy(buffer, _trackables[i]._featurePoints.data(), _trackables[i]._featurePoints.size());
-                return true;
-            }
-        }
-        return false;
+        for(int i=0;i<_trackables.size(); i++)
+            if(_trackables[i]._id == trackableId)
+                return (uint32_t*)_trackables[i]._featurePoints.data();
+        return NULL;
     }
     
-    bool getCornerPoints(int trackableId, uint32_t *buffer)
+    uint32_t *getCornerPoints(int trackableId)
     {
-        for(int i=0;i<_trackables.size(); i++) {
-            if(_trackables[i]._id == trackableId){
-                memcpy(buffer, _trackables[i]._cornerPoints.data(), _trackables[i]._cornerPoints.size());
-                return true;
-            }
-        }
-        return false;
+        for(int i=0;i<_trackables.size(); i++)
+            if(_trackables[i]._id == trackableId)
+                return (uint32_t*)_trackables[i]._cornerPoints.data();
+        return NULL;
     }
     
     void RemoveAllMarkers()
@@ -771,14 +765,14 @@ int PlanarTracker::getFeatureCount()
     return _trackerImpl->getFeatureCount();
 }
 
-bool PlanarTracker::getFeaturePoints(int trackableId, uint32_t *buffer)
+uint32_t *PlanarTracker::getFeaturePoints(int trackableId)
 {
-    return _trackerImpl->getFeaturePoints(trackableId, buffer);
+    return _trackerImpl->getFeaturePoints(trackableId);
 }
 
-bool PlanarTracker::getCornerPoints(int trackableId, uint32_t *buffer)
+uint32_t *PlanarTracker::getCornerPoints(int trackableId)
 {
-    return _trackerImpl->getCornerPoints(trackableId, buffer);
+    return _trackerImpl->getCornerPoints(trackableId);
 }
 
 void PlanarTracker::RemoveAllMarkers()

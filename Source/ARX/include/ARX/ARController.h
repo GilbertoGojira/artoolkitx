@@ -370,9 +370,9 @@ public:
     
     int getCornerPointCount(int trackabkeId);
     
-    bool getFeaturePoints(int trackableId, uint32_t *buffer);
+    uint32_t *getFeaturePoints(int trackableId);
     
-    bool getCornerPoints(int trackableId, uint32_t *buffer);
+    uint32_t *getCornerPoints(int trackableId);
 
     /**
      * Populates the provided buffer with the current contents of the debug image.

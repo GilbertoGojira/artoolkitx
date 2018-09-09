@@ -72,8 +72,8 @@ public:
     int getFeatureCount();
     int GetFeaturePointCount(int trackableId);
     int GetCornerPointCount(int trackableId);
-    bool getFeaturePoints(int trackableId, uint32_t *buffer);
-    bool getCornerPoints(int trackableId, uint32_t *buffer);
+    uint32_t *getFeaturePoints(int trackableId);
+    uint32_t *getCornerPoints(int trackableId);
     
     void RemoveAllMarkers();
     void AddMarker(unsigned char* buff, std::string fileName, int width, int height, int uid, float scale);

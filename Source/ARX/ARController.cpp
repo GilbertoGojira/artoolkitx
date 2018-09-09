@@ -419,16 +419,16 @@ int ARController::getCornerPointCount(int trackableId)
     return m_twoDTracker->GetCornerPointCount(trackableId);
 }
 
-bool ARController::getFeaturePoints(int trackableId, uint32_t *buffer)
+uint32_t *ARController::getFeaturePoints(int trackableId)
 {
     doTwoDFeatureCount = true;
-    return m_twoDTracker->getFeaturePoints(trackableId, buffer);
+    return m_twoDTracker->getFeaturePoints(trackableId);
 }
 
-bool ARController::getCornerPoints(int trackableId, uint32_t *buffer)
+uint32_t *ARController::getCornerPoints(int trackableId)
 {
     doTwoDFeatureCount = true;
-    return m_twoDTracker->getCornerPoints(trackableId, buffer);
+    return m_twoDTracker->getCornerPoints(trackableId);
 }
 
 bool ARController::stopRunning()
