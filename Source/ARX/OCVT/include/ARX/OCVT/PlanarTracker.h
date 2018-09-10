@@ -70,6 +70,7 @@ public:
     void ProcessFrameData(unsigned char * frame);
     
     int getFeatureCount();
+    uint32_t *getFrameFeatures();
     int GetFeaturePointCount(int trackableId);
     int GetCornerPointCount(int trackableId);
     uint32_t *getFeaturePoints(int trackableId);

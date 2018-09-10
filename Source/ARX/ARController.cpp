@@ -409,6 +409,12 @@ int ARController::getFeatureCount()
     return m_twoDTracker->getFeatureCount();
 }
 
+uint32_t *ARController::getFrameFeatures()
+{
+    doTwoDFeatureCount = true;
+    return m_twoDTracker->getFrameFeatures();
+}
+
 int ARController::getFeaturePointCount(int trackableId)
 {
     return m_twoDTracker->GetFeaturePointCount(trackableId);

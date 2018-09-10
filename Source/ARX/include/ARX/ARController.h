@@ -367,6 +367,8 @@ public:
     
     int getFeatureCount();
     
+    uint32_t *getFrameFeatures();
+    
     int getFeaturePointCount(int trackabkeId);
     
     int getCornerPointCount(int trackabkeId);

@@ -88,6 +88,8 @@ public:
     void setDetectorType(int detectorType);
     
     int getFeatureCount();
+    uint32_t *getFrameFeatures();
+    
     int GetFeaturePointCount(int trackableId);
     int GetCornerPointCount(int trackableId);
     uint32_t *getFeaturePoints(int trackableId);

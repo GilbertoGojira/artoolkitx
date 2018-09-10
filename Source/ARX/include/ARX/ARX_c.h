@@ -230,6 +230,8 @@ extern "C" {
     // Gilberto: Gets number of found features
     ARX_EXTERN int arwGetFeatureCount();
     
+    ARX_EXTERN uint32_t *arwGetFrameFeatures();
+    
     // Gilberto: Gets number of found features in a specific trackable
     ARX_EXTERN int arwGetFeaturePointCount(int trackableId);
     

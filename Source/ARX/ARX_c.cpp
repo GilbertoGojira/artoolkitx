@@ -274,6 +274,12 @@ int arwGetFeatureCount()
     return gARTK->getFeatureCount();
 }
 
+uint32_t *arwGetFrameFeatures()
+{
+    if (!gARTK) return NULL;
+    return gARTK->getFrameFeatures();
+}
+
 int arwGetFeaturePointCount(int trackableId)
 {
     if (!gARTK) return 0;
@@ -852,6 +858,7 @@ extern "C" {
 	JNIEXPORT jboolean JNICALL JNIFUNCTION(arwCapture(JNIEnv *env, jobject obj));
 	JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateAR(JNIEnv *env, jobject obj));
     JNIEXPORT jint JNICALL JNIFUNCTION(arwGetFeatureCount());
+    //JNIEXPORT jint JNICALL JNIFUNCTION(arwGetFrameFeatures());
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateTexture32(JNIEnv *env, jobject obj, jbyteArray pinArray));
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwUpdateTextureStereo32(JNIEnv *env, jobject obj, jbyteArray pinArrayL, jbyteArray pinArrayR));
     JNIEXPORT jboolean JNICALL JNIFUNCTION(arwDrawVideoInit(JNIEnv *env, jobject obj, jint videoSourceIndex));

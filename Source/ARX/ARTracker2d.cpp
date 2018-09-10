@@ -298,6 +298,11 @@ int ARTracker2d::getFeatureCount()
     return m_2DTracker->getFeatureCount();
 }
 
+uint32_t *ARTracker2d::getFrameFeatures()
+{
+    return m_2DTracker->getFrameFeatures();
+}
+
 int ARTracker2d::GetFeaturePointCount(int trackableId)
 {
     return m_2DTracker->GetFeaturePointCount(trackableId);

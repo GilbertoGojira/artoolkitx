@@ -71,6 +71,8 @@ private:
     // Gilberto: Store feature count of current frame
     int _featureCount;
     
+    std::vector<cv::KeyPoint> _frameFeatures;
+    
 public:
     PlanarTrackerImpl()
     {
@@ -430,6 +432,7 @@ public:
             cv::Mat featureMask = CreateFeatureMask(detectionFrame);
             std::vector<cv::KeyPoint> newFrameFeatures = _featureDetector.DetectFeatures(detectionFrame, featureMask);
             _featureCount = newFrameFeatures.size();
+            _frameFeatures = newFrameFeatures;
             if(CanMatchNewFeatures(static_cast<int>(newFrameFeatures.size()))) {
                 //std::cout << "Matching new features" << std::endl;
                 cv::Mat newFrameDescriptors = _featureDetector.CalcDescriptors(detectionFrame, newFrameFeatures);
@@ -470,6 +473,11 @@ public:
     int getFeatureCount()
     {
         return _featureCount;
+    }
+    
+    uint32_t *getFrameFeatures()
+    {
+        return (uint32_t*)_frameFeatures.data();
     }
     
     uint32_t *getFeaturePoints(int trackableId)
@@ -763,6 +771,11 @@ void PlanarTracker::ProcessFrameData(unsigned char * frame)
 int PlanarTracker::getFeatureCount()
 {
     return _trackerImpl->getFeatureCount();
+}
+
+uint32_t *PlanarTracker::getFrameFeatures()
+{
+    return _trackerImpl->getFrameFeatures();
 }
 
 uint32_t *PlanarTracker::getFeaturePoints(int trackableId)
