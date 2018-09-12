@@ -289,7 +289,7 @@ int arwGetFeaturePointCount(int trackableId)
 int arwGetCornerPointCount(int trackableId)
 {
     if (!gARTK) return 0;
-    return gARTK->getFeaturePointCount(trackableId);
+    return gARTK->getCornerPointCount(trackableId);
 }
 
 uint32_t *arwGetFeaturePoints(int trackableId)
