@@ -293,6 +293,11 @@ void ARTracker2d::setDetectorType(int detectorType)
     }
 }
 
+int ARTracker2d::getDetectorType()
+{
+    return m_2DTracker->GetFeatureDetector();
+}
+
 int ARTracker2d::getFeatureCount()
 {
     return m_2DTracker->getFeatureCount();

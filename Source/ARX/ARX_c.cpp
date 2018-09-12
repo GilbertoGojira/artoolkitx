@@ -443,7 +443,8 @@ int arwGetTrackerOptionInt(int option)
         return gARTK->getSquareTracker()->patternSize();
     } else if (option == ARW_TRACKER_OPTION_SQUARE_PATTERN_COUNT_MAX) {
         return gARTK->getSquareTracker()->patternCountMax();
-    }
+    } else if(option == ARW_TRACKER_OPTION_2D_TRACKER_FEATURE_TYPE)
+        return gARTK->get2dTracker()->getDetectorType();
     return (INT_MAX);
 }
 

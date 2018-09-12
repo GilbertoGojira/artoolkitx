@@ -86,6 +86,7 @@ public:
     bool saveImageDatabase(std::string filename);
     
     void setDetectorType(int detectorType);
+    int getDetectorType();
     
     int getFeatureCount();
     uint32_t *getFrameFeatures();

@@ -91,6 +91,7 @@ public:
     TrackedImageInfo GetTrackableImageInfo(int trackableId);
     
     void SetFeatureDetector(int detectorType);
+    int GetFeatureDetector();
 
 private:
     class PlanarTrackerImpl;

@@ -748,6 +748,11 @@ public:
         _selectedFeatureDetectorType = detectorType;
         _featureDetector.SetFeatureDetector(detectorType);
     }
+    
+    int GetFeatureDetector()
+    {
+        return _selectedFeatureDetectorType;
+    }
 };
 
 PlanarTracker::PlanarTracker() : _trackerImpl(new PlanarTrackerImpl())
@@ -851,3 +856,7 @@ void PlanarTracker::SetFeatureDetector(int detectorType)
     _trackerImpl->SetFeatureDetector(detectorType);
 }
 
+int PlanarTracker::GetFeatureDetector()
+{
+    return _trackerImpl->GetFeatureDetector();
+}
