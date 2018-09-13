@@ -387,14 +387,27 @@ void arwSetTrackerOptionInt(int option, int value)
         gARTK->getSquareTracker()->setPatternSize(value);
     } else if (option == ARW_TRACKER_OPTION_SQUARE_PATTERN_COUNT_MAX) {
         gARTK->getSquareTracker()->setPatternCountMax(value);
-    } else if (option == ARW_TRACKER_OPTION_2D_TRACKER_FEATURE_TYPE) {
-#if HAVE_2D
-        if (value < 0 || value > 3) return;
-        gARTK->get2dTracker()->setDetectorType(value);
-#else
-        return;
-#endif
     }
+#if HAVE_2D
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_FEATURE_TYPE)
+        gARTK->get2dTracker()->setDetectorType(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_TEMPLATE_WIDTH)
+        gARTK->get2dTracker()->setMarkerTemplateWidth(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MAX_LEVEL)
+        gARTK->get2dTracker()->setMaxLevel(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_WIN_SIZE)
+        gARTK->get2dTracker()->setWinSize(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MAX_TRACKABLES_TO_TRACK)
+        gARTK->get2dTracker()->setMaxTrackablesToTrack(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_SEARCH_RADIUS)
+        gARTK->get2dTracker()->setSearchRadius(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MATCH_METHOD)
+        gARTK->get2dTracker()->setMatchMethod(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_DETECT_PYRAMID_LEVEL)
+        gARTK->get2dTracker()->setFeatureDetectPyramidLevel(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_HARRIS_BORDER)
+        gARTK->get2dTracker()->setHarrisBorder(value);
+#endif
 }
 
 void arwSetTrackerOptionFloat(int option, float value)
@@ -405,6 +418,12 @@ void arwSetTrackerOptionFloat(int option, float value)
         if (value <= 0.0f || value >= 0.5f) return;
         gARTK->getSquareTracker()->setPattRatio(1.0f - 2.0f*value); // Convert from border size to pattern ratio.
     }
+#if HAVE_2D
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_NEAREST_NEIGHBOUR_MATCH_RATIO)
+        gARTK->get2dTracker()->setNearestNeighbourMatchRatio(value);
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_RANSAC_THRESHOLD)
+        gARTK->get2dTracker()->setRansacThreshold(value);
+#endif
 }
 
 bool arwGetTrackerOptionBool(int option)
@@ -443,8 +462,27 @@ int arwGetTrackerOptionInt(int option)
         return gARTK->getSquareTracker()->patternSize();
     } else if (option == ARW_TRACKER_OPTION_SQUARE_PATTERN_COUNT_MAX) {
         return gARTK->getSquareTracker()->patternCountMax();
-    } else if(option == ARW_TRACKER_OPTION_2D_TRACKER_FEATURE_TYPE)
+    }
+#if HAVE_2D
+    else if(option == ARW_TRACKER_OPTION_2D_TRACKER_FEATURE_TYPE)
         return gARTK->get2dTracker()->getDetectorType();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_TEMPLATE_WIDTH)
+        return gARTK->get2dTracker()->getMarkerTemplateWidth();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MAX_LEVEL)
+        return gARTK->get2dTracker()->getMaxLevel();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_WIN_SIZE)
+        return gARTK->get2dTracker()->getWinSize();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MAX_TRACKABLES_TO_TRACK)
+        return gARTK->get2dTracker()->getMaxTrackablesToTrack();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_SEARCH_RADIUS)
+        return gARTK->get2dTracker()->getSearchRadius();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_MATCH_METHOD)
+        return gARTK->get2dTracker()->getMatchMethod();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_DETECT_PYRAMID_LEVEL)
+        return gARTK->get2dTracker()->getFeatureDetectPyramidLevel();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_HARRIS_BORDER)
+        return gARTK->get2dTracker()->getHarrisBorder();
+#endif
     return (INT_MAX);
 }
 
@@ -456,6 +494,12 @@ float arwGetTrackerOptionFloat(int option)
         float value = gARTK->getSquareTracker()->pattRatio();
         if (value > 0.0f && value < 1.0f) return (1.0f - value)/2.0f; // Convert from pattern ratio to border size.
     }
+#if HAVE_2D
+    else if(option == ARW_TRACKER_OPTION_2D_TRACKER_NEAREST_NEIGHBOUR_MATCH_RATIO)
+        return gARTK->get2dTracker()->getNearestNeighbourMatchRatio();
+    else if (option == ARW_TRACKER_OPTION_2D_TRACKER_RANSAC_THRESHOLD)
+        return gARTK->get2dTracker()->getRansacThreshold();
+#endif
     return (NAN);
 }
 

@@ -88,13 +88,34 @@ public:
     void setDetectorType(int detectorType);
     int getDetectorType();
     
-    int getFeatureCount();
+    int getFrameFeatureCount();
     uint32_t *getFrameFeatures();
     
-    int GetFeaturePointCount(int trackableId);
-    int GetCornerPointCount(int trackableId);
+    int getFeaturePointCount(int trackableId);
+    int getCornerPointCount(int trackableId);
     uint32_t *getFeaturePoints(int trackableId);
     uint32_t *getCornerPoints(int trackableId);
+    
+    int getMarkerTemplateWidth();
+    void setMarkerTemplateWidth(int width);
+    int getMaxLevel();
+    void setMaxLevel(int level);
+    int getWinSize();
+    void setWinSize(int size);
+    void setMaxTrackablesToTrack(int value);
+    int getMaxTrackablesToTrack();
+    void setSearchRadius(int value);
+    int getSearchRadius();
+    void setMatchMethod(int value);
+    int getMatchMethod();
+    void setFeatureDetectPyramidLevel(int value);
+    int getFeatureDetectPyramidLevel();
+    void setNearestNeighbourMatchRatio(double value);
+    double getNearestNeighbourMatchRatio();
+    void setRansacThreshold(double value);
+    double getRansacThreshold();
+    void setHarrisBorder(int value);
+    int getHarrisBorder();
 private:
     int m_cameraXSize;
     int m_cameraYSize;

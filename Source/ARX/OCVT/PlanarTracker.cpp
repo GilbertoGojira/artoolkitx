@@ -40,7 +40,6 @@
 
 #include "PlanarTracker.h"
 
-#include "OCVConfig.h"
 #include "OCVFeatureDetector.h"
 #include "HarrisDetector.h"
 #include "TrackableInfo.h"
@@ -66,14 +65,25 @@ private:
     int _frameSizeY;
     cv::Mat _K;
     
-    int _selectedFeatureDetectorType;
-    
     // Gilberto: Store feature count of current frame
     int _featureCount;
     
     std::vector<cv::KeyPoint> _frameFeatures;
     
 public:
+    int markerTemplateWidth = 15;
+    int maxLevel = 3;
+    cv::Size winSize = cv::Size(31,31);
+    int maxNumberOfToTrack = 1;
+    int searchRadius = 15;
+    int matchMethod = cv::TM_SQDIFF_NORMED;
+    int featureDetectPyramidLevel = 2;
+    int selectedFeatureDetectorType = 0;
+    double nn_match_ratio = 0.8f; // Nearest-neighbour matching ratio
+    double ransac_thresh = 2.5f; // RANSAC inlier threshold
+    cv::RNG rng = cv::RNG( 0xFFFFFFFF );
+    int harrisBorder = 10;
+    
     PlanarTrackerImpl()
     {
         _featureDetector = OCVFeatureDetector();
@@ -240,7 +250,7 @@ public:
         return false;
     }
     
-    std::vector<cv::Point2f> GetVerticesFromPoint(cv::Point ptOrig, int width = markerTemplateWidth, int height = markerTemplateWidth)
+    std::vector<cv::Point2f> GetVerticesFromPoint(cv::Point ptOrig, int width, int height)
     {
         std::vector<cv::Point2f> vertexPoints;
         vertexPoints.push_back(cv::Point2f(ptOrig.x - width/2, ptOrig.y - height/2));
@@ -342,7 +352,7 @@ public:
                 if(IsRoiValidForFrame(frameROI, templateRoi)) {
                     cv::Rect markerRoi(0, 0, _trackables[trackableId]._image.cols, _trackables[trackableId]._image.rows);
                     
-                    std::vector<cv::Point2f> vertexPoints = GetVerticesFromPoint(ptOrig);
+                    std::vector<cv::Point2f> vertexPoints = GetVerticesFromPoint(ptOrig, markerTemplateWidth, markerTemplateWidth);
                     std::vector<cv::Point2f> vertexPointsResults;
                     perspectiveTransform(vertexPoints, vertexPointsResults, _trackables[trackableId]._trackSelection.GetHomography());
                     
@@ -470,17 +480,17 @@ public:
         _frameCount++;
     }
     
-    int getFeatureCount()
+    int GetFrameFeatureCount()
     {
         return _featureCount;
     }
     
-    uint32_t *getFrameFeatures()
+    uint32_t *GetFrameFeatures()
     {
         return (uint32_t*)_frameFeatures.data();
     }
     
-    uint32_t *getFeaturePoints(int trackableId)
+    uint32_t *GetFeaturePoints(int trackableId)
     {
         for(int i=0;i<_trackables.size(); i++)
             if(_trackables[i]._id == trackableId)
@@ -488,7 +498,7 @@ public:
         return NULL;
     }
     
-    uint32_t *getCornerPoints(int trackableId)
+    uint32_t *GetCornerPoints(int trackableId)
     {
         for(int i=0;i<_trackables.size(); i++)
             if(_trackables[i]._id == trackableId)
@@ -514,7 +524,7 @@ public:
             try {
                 int totalTrackables = _trackables.size();
                 fs << "totalTrackables" << totalTrackables;
-                fs << "featureType" << _selectedFeatureDetectorType;
+                fs << "featureType" << selectedFeatureDetectorType;
                 for(int i=0;i<_trackables.size(); i++) {
                     std::string index = std::to_string(i);
                     fs << "trackableId" + index << _trackables[i]._id;
@@ -745,13 +755,13 @@ public:
     
     void SetFeatureDetector(int detectorType)
     {
-        _selectedFeatureDetectorType = detectorType;
+        selectedFeatureDetectorType = detectorType;
         _featureDetector.SetFeatureDetector(detectorType);
     }
     
     int GetFeatureDetector()
     {
-        return _selectedFeatureDetectorType;
+        return selectedFeatureDetectorType;
     }
 };
 
@@ -773,24 +783,24 @@ void PlanarTracker::ProcessFrameData(unsigned char * frame)
     _trackerImpl->ProcessFrameData(frame);
 }
 
-int PlanarTracker::getFeatureCount()
+int PlanarTracker::GetFrameFeatureCount()
 {
-    return _trackerImpl->getFeatureCount();
+    return _trackerImpl->GetFrameFeatureCount();
 }
 
-uint32_t *PlanarTracker::getFrameFeatures()
+uint32_t *PlanarTracker::GetFrameFeatures()
 {
-    return _trackerImpl->getFrameFeatures();
+    return _trackerImpl->GetFrameFeatures();
 }
 
-uint32_t *PlanarTracker::getFeaturePoints(int trackableId)
+uint32_t *PlanarTracker::GetFeaturePoints(int trackableId)
 {
-    return _trackerImpl->getFeaturePoints(trackableId);
+    return _trackerImpl->GetFeaturePoints(trackableId);
 }
 
-uint32_t *PlanarTracker::getCornerPoints(int trackableId)
+uint32_t *PlanarTracker::GetCornerPoints(int trackableId)
 {
-    return _trackerImpl->getCornerPoints(trackableId);
+    return _trackerImpl->GetCornerPoints(trackableId);
 }
 
 void PlanarTracker::RemoveAllMarkers()
@@ -841,6 +851,7 @@ bool PlanarTracker::ChangeImageId(int prevId, int newId)
 {
     return _trackerImpl->ChangeImageId(prevId, newId);
 }
+
 std::vector<int> PlanarTracker::GetImageIds()
 {
     return _trackerImpl->GetImageIds();
@@ -859,4 +870,104 @@ void PlanarTracker::SetFeatureDetector(int detectorType)
 int PlanarTracker::GetFeatureDetector()
 {
     return _trackerImpl->GetFeatureDetector();
+}
+
+void PlanarTracker::SetMarkerTemplateWidth(int value)
+{
+    _trackerImpl->markerTemplateWidth = value;
+}
+
+int PlanarTracker::GetMarkerTemplateWidth()
+{
+    return _trackerImpl->markerTemplateWidth;
+}
+
+void PlanarTracker::SetMaxLevel(int value)
+{
+    _trackerImpl->maxLevel = value;
+}
+
+int PlanarTracker::GetMaxLevel()
+{
+    return _trackerImpl->maxLevel;
+}
+
+void PlanarTracker::SetWinSize(int value)
+{
+    _trackerImpl->winSize = cv::Size(value, value);
+}
+
+int PlanarTracker::GetWinSize()
+{
+    return _trackerImpl->winSize.width;
+}
+
+void PlanarTracker::SetMaxTrackablesToTrack(int value)
+{
+    _trackerImpl->maxNumberOfToTrack = value;
+}
+
+int PlanarTracker::GetMaxTrackablesToTrack()
+{
+    return _trackerImpl->maxNumberOfToTrack;
+}
+
+void PlanarTracker::SetSearchRadius(int value)
+{
+    _trackerImpl->searchRadius = value;
+}
+
+int PlanarTracker::GetSearchRadius()
+{
+    return _trackerImpl->searchRadius;
+}
+
+void PlanarTracker::SetMatchMethod(int value)
+{
+    _trackerImpl->matchMethod = value;
+}
+
+int PlanarTracker::GetMatchMethod()
+{
+    return _trackerImpl->matchMethod;
+}
+
+void PlanarTracker::SetFeatureDetectPyramidLevel(int value)
+{
+    _trackerImpl->featureDetectPyramidLevel = value;
+}
+
+int PlanarTracker::GetFeatureDetectPyramidLevel()
+{
+    return _trackerImpl->featureDetectPyramidLevel;
+}
+
+void PlanarTracker::SetNearestNeighbourMatchRatio(double value)
+{
+    _trackerImpl->nn_match_ratio = value;
+}
+
+double PlanarTracker::GetNearestNeighbourMatchRatio()
+{
+    return _trackerImpl->nn_match_ratio;
+}
+
+void PlanarTracker::SetRansacThreshold(double value)
+{
+    _trackerImpl->ransac_thresh = value;
+}
+
+double PlanarTracker::GetRansacThreshold()
+{
+    return _trackerImpl->ransac_thresh;
+}
+
+void PlanarTracker::SetHarrisBorder(int value)
+{
+    _trackerImpl->harrisBorder = value;
+}
+
+int PlanarTracker::GetHarrisBorder()
+{
+    return _trackerImpl->harrisBorder;
 }

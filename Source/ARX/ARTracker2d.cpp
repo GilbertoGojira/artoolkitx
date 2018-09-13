@@ -298,34 +298,134 @@ int ARTracker2d::getDetectorType()
     return m_2DTracker->GetFeatureDetector();
 }
 
-int ARTracker2d::getFeatureCount()
+int ARTracker2d::getFrameFeatureCount()
 {
-    return m_2DTracker->getFeatureCount();
+    return m_2DTracker->GetFrameFeatureCount();
 }
 
 uint32_t *ARTracker2d::getFrameFeatures()
 {
-    return m_2DTracker->getFrameFeatures();
+    return m_2DTracker->GetFrameFeatures();
 }
 
-int ARTracker2d::GetFeaturePointCount(int trackableId)
+int ARTracker2d::getFeaturePointCount(int trackableId)
 {
     return m_2DTracker->GetFeaturePointCount(trackableId);
 }
 
-int ARTracker2d::GetCornerPointCount(int trackableId)
+int ARTracker2d::getCornerPointCount(int trackableId)
 {
     return m_2DTracker->GetCornerPointCount(trackableId);
 }
 
 uint32_t *ARTracker2d::getFeaturePoints(int trackableId)
 {
-    return m_2DTracker->getFeaturePoints(trackableId);
+    return m_2DTracker->GetFeaturePoints(trackableId);
 }
 
 uint32_t *ARTracker2d::getCornerPoints(int trackableId)
 {
-    return m_2DTracker->getCornerPoints(trackableId);
+    return m_2DTracker->GetCornerPoints(trackableId);
+}
+
+void ARTracker2d::setMarkerTemplateWidth(int width)
+{
+    m_2DTracker->SetMarkerTemplateWidth(width);
+}
+
+int ARTracker2d::getMarkerTemplateWidth()
+{
+    return m_2DTracker->GetMarkerTemplateWidth();
+}
+
+void ARTracker2d::setMaxLevel(int level)
+{
+    m_2DTracker->SetMaxLevel(level);
+}
+
+int ARTracker2d::getMaxLevel()
+{
+    return m_2DTracker->GetMaxLevel();
+}
+
+void ARTracker2d::setWinSize(int size)
+{
+    m_2DTracker->SetWinSize(size);
+}
+
+int ARTracker2d::getWinSize()
+{
+    return m_2DTracker->GetWinSize();
+}
+
+void ARTracker2d::setMaxTrackablesToTrack(int value)
+{
+    m_2DTracker->SetMaxTrackablesToTrack(value);
+}
+
+int ARTracker2d::getMaxTrackablesToTrack()
+{
+    return m_2DTracker->GetMaxTrackablesToTrack();
+}
+
+void ARTracker2d::setSearchRadius(int value)
+{
+    m_2DTracker->SetSearchRadius(value);
+}
+
+int ARTracker2d::getSearchRadius()
+{
+    return m_2DTracker->GetSearchRadius();
+}
+
+void ARTracker2d::setMatchMethod(int value)
+{
+    m_2DTracker->SetMatchMethod(value);
+}
+
+int ARTracker2d::getMatchMethod()
+{
+    return m_2DTracker->GetMatchMethod();
+}
+
+void ARTracker2d::setFeatureDetectPyramidLevel(int value)
+{
+    m_2DTracker->SetFeatureDetectPyramidLevel(value);
+}
+
+int ARTracker2d::getFeatureDetectPyramidLevel()
+{
+    return m_2DTracker->GetFeatureDetectPyramidLevel();
+}
+
+void ARTracker2d::setNearestNeighbourMatchRatio(double value)
+{
+    m_2DTracker->SetNearestNeighbourMatchRatio(value);
+}
+
+double ARTracker2d::getNearestNeighbourMatchRatio()
+{
+    return m_2DTracker->GetNearestNeighbourMatchRatio();
+}
+
+void ARTracker2d::setRansacThreshold(double value)
+{
+    m_2DTracker->SetRansacThreshold(value);
+}
+
+double ARTracker2d::getRansacThreshold()
+{
+    return m_2DTracker->GetRansacThreshold();
+}
+
+void ARTracker2d::setHarrisBorder(int value)
+{
+    m_2DTracker->SetHarrisBorder(value);
+}
+
+int ARTracker2d::getHarrisBorder()
+{
+    return m_2DTracker->GetHarrisBorder();
 }
 #endif // HAVE_2D
 

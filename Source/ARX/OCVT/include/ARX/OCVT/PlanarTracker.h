@@ -69,12 +69,12 @@ public:
     
     void ProcessFrameData(unsigned char * frame);
     
-    int getFeatureCount();
-    uint32_t *getFrameFeatures();
+    int GetFrameFeatureCount();
+    uint32_t *GetFrameFeatures();
     int GetFeaturePointCount(int trackableId);
     int GetCornerPointCount(int trackableId);
-    uint32_t *getFeaturePoints(int trackableId);
-    uint32_t *getCornerPoints(int trackableId);
+    uint32_t *GetFeaturePoints(int trackableId);
+    uint32_t *GetCornerPoints(int trackableId);
     
     void RemoveAllMarkers();
     void AddMarker(unsigned char* buff, std::string fileName, int width, int height, int uid, float scale);
@@ -92,6 +92,26 @@ public:
     
     void SetFeatureDetector(int detectorType);
     int GetFeatureDetector();
+    void SetMarkerTemplateWidth(int value);
+    int GetMarkerTemplateWidth();
+    void SetMaxLevel(int value);
+    int GetMaxLevel();
+    void SetWinSize(int value);
+    int GetWinSize();
+    void SetMaxTrackablesToTrack(int value);
+    int GetMaxTrackablesToTrack();
+    void SetSearchRadius(int value);
+    int GetSearchRadius();
+    void SetMatchMethod(int value);
+    int GetMatchMethod();
+    void SetFeatureDetectPyramidLevel(int value);
+    int GetFeatureDetectPyramidLevel();
+    void SetNearestNeighbourMatchRatio(double value);
+    double GetNearestNeighbourMatchRatio();
+    void SetRansacThreshold(double value);
+    double GetRansacThreshold();
+    void SetHarrisBorder(int value);
+    int GetHarrisBorder();
 
 private:
     class PlanarTrackerImpl;
