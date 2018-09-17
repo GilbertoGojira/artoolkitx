@@ -512,6 +512,7 @@ public:
             _trackables[i].CleanUp();
         }
         _trackables.clear();
+        _currentlyTrackedMarkers = 0;
     }
     
     bool SaveTrackableDatabase(std::string fileName)
