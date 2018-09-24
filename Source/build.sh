@@ -77,7 +77,7 @@ then
 elif [ "$OS" = "Darwin" ]
 then
     CPUS=`/usr/sbin/sysctl -n hw.ncpu`
-elif [ "$OS" = "CYGWIN_NT-6.1" ]
+elif [[ "$OS" == "CYGWIN_NT-"* ]]
 then
     # bash on Cygwin.
     CPUS=`/usr/bin/nproc`
@@ -435,7 +435,7 @@ if [ "$OS" = "Windows" ] ; then
 
 # Windows
 if [ $BUILD_WINDOWS ] ; then
-
+echo "Buiding windows"
     if [ ! -d "build-windows" ] ; then
         mkdir build-windows
     fi
