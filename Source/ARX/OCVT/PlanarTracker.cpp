@@ -523,7 +523,7 @@ public:
         if(fs.isOpened())
         {
             try {
-                int totalTrackables = _trackables.size();
+                int totalTrackables = (int)_trackables.size();
                 fs << "totalTrackables" << totalTrackables;
                 fs << "featureType" << selectedFeatureDetectorType;
                 for(int i=0;i<_trackables.size(); i++) {
