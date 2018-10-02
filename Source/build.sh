@@ -129,7 +129,7 @@ if [ "$OS" = "Darwin" ] ; then
 if [ $BUILD_MACOS ] ; then
     if [ ! -d "depends/macos/Frameworks/opencv2.framework" ] ; then
         curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-macos.zip" -o opencv/macos/opencv2.zip
-        unzip opencv2.zip -d depends/macos/Frameworks
+        unzip opencv/macos/opencv2.zip -d depends/macos/Frameworks
     fi
 
     if [ ! -d "build-macos" ] ; then
