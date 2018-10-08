@@ -128,8 +128,9 @@ if [ "$OS" = "Darwin" ] ; then
 # macOS
 if [ $BUILD_MACOS ] ; then
     if [ ! -d "depends/macos/Frameworks/opencv2.framework" ] ; then
-        curl --location "https://github.com/artoolkitx/opencv/releases/download/3.4.1-dev-artoolkitx/opencv-3.4.1-dev-artoolkitx-macos.zip" -o opencv/macos/opencv2.zip
-        unzip opencv/macos/opencv2.zip -d depends/macos/Frameworks
+        curl --location "https://github.com/artoolkitx/opencv/releases/download/4.0.0-pre-artoolkitx/opencv-4.0.0-pre-artoolkitx-macos.zip" -o opencv2.zip
+        unzip opencv2.zip -d depends/macos/Frameworks
+        rm opencv2.zip
     fi
 
     if [ ! -d "build-macos" ] ; then
@@ -158,9 +159,9 @@ if [ $BUILD_IOS ] ; then
 
 
     if [ ! -d "depends/ios/Frameworks/opencv2.framework" ] ; then
-        mkdir -p opencv/ios
-        curl "https://phoenixnap.dl.sourceforge.net/project/opencvlibrary/opencv-ios/3.4.1/opencv-3.4.1-ios-framework.zip" -o opencv/ios/opencv2.zip
-        unzip opencv/ios/opencv2.zip -d depends/ios/Frameworks
+        curl --location "https://github.com/artoolkitx/opencv/releases/download/4.0.0-pre-artoolkitx/opencv-4.0.0-pre-artoolkitx-ios.zip" -o opencv2.zip
+        unzip opencv2.zip -d depends/ios/Frameworks
+        rm opencv2.zip
     fi
 
     if [ ! -d "build-ios" ] ; then

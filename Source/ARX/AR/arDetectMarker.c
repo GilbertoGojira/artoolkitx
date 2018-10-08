@@ -91,9 +91,10 @@ cnt = 0;
             
             for (i = 0; i < 3; i++) {
                 if (arLabeling(frame->buffLuma, arHandle->xsize, arHandle->ysize, arHandle->arDebug, arHandle->arLabelingMode, thresholds[i], arHandle->arImageProcMode, &(arHandle->labelInfo), NULL) < 0) return -1;
-                if (arDetectMarker2(arHandle->xsize, arHandle->ysize, &(arHandle->labelInfo), arHandle->arImageProcMode, AR_AREA_MAX, AR_AREA_MIN, AR_SQUARE_FIT_THRESH, arHandle->markerInfo2, &(arHandle->marker2_num)) < 0) return -1;
+                if (arDetectMarker2(arHandle->xsize, arHandle->ysize, &(arHandle->labelInfo), arHandle->arImageProcMode, arHandle->areaMax, arHandle->areaMin, arHandle->squareFitThresh, arHandle->markerInfo2, &(arHandle->marker2_num)) < 0) return -1;
                 if (arGetMarkerInfo(frame->buff, arHandle->xsize, arHandle->ysize, arHandle->arPixelFormat, arHandle->markerInfo2, arHandle->marker2_num, arHandle->pattHandle, arHandle->arImageProcMode, arHandle->arPatternDetectionMode, &(arHandle->arParamLT->paramLTf), arHandle->pattRatio, arHandle->markerInfo, &(arHandle->marker_num), arHandle->matrixCodeType) < 0) return -1;
-                marker_nums[i] = arHandle->marker_num;
+                marker_nums[i] = 0;
+                for (j = 0; j < arHandle->marker_num; j++) if (arHandle->markerInfo[j].idPatt != -1 || arHandle->markerInfo[j].idMatrix != -1) marker_nums[i]++;
             }
 
             if (arHandle->arDebug == AR_DEBUG_ENABLE) ARLOGe("Auto threshold (bracket) marker counts -[%3d: %3d] [%3d: %3d] [%3d: %3d]+.\n", thresholds[1], marker_nums[1], thresholds[2], marker_nums[2], thresholds[0], marker_nums[0]);
@@ -115,11 +116,11 @@ cnt = 0;
                 arHandle->arLabelingThresh = (marker_nums[0] >= marker_nums[1] ? thresholds[0] : thresholds[1]);
                 threshDiff = arHandle->arLabelingThresh - thresholds[2];
                 if (threshDiff > 0) {
-                    arHandle->arLabelingThreshAutoBracketOver = threshDiff;
+                    arHandle->arLabelingThreshAutoBracketOver = (threshDiff + 1) / 2;
                     arHandle->arLabelingThreshAutoBracketUnder = 1;
                 } else {
                     arHandle->arLabelingThreshAutoBracketOver = 1;
-                    arHandle->arLabelingThreshAutoBracketUnder = -threshDiff;
+                    arHandle->arLabelingThreshAutoBracketUnder = (-threshDiff + 1) / 2;
                 }
                 if (arHandle->arDebug == AR_DEBUG_ENABLE) ARLOGe("Auto threshold (bracket) adjusted threshold to %d.\n", arHandle->arLabelingThresh);
             }
@@ -128,11 +129,10 @@ cnt = 0;
     }
     
     if (!detectionIsDone) {
-#if !AR_DISABLE_THRESH_MODE_AUTO_ADAPTIVE
         if (arHandle->arLabelingThreshMode == AR_LABELING_THRESH_MODE_AUTO_ADAPTIVE) {
             
             int ret;
-            ret = arImageProcLumaHistAndBoxFilterWithBias(arHandle->arImageProcInfo, frame->buffLuma,  AR_LABELING_THRESH_ADAPTIVE_KERNEL_SIZE_DEFAULT, AR_LABELING_THRESH_ADAPTIVE_BIAS_DEFAULT);
+            ret = arImageProcLumaHistAndBoxFilterWithBias(arHandle->arImageProcInfo, frame->buffLuma, arHandle->arLabelingThreshAutoAdaptiveKernelSize, arHandle->arLabelingThreshAutoAdaptiveBias);
             if (ret < 0) return (ret);
             
             ret = arLabeling(frame->buffLuma, arHandle->arImageProcInfo->imageX, arHandle->arImageProcInfo->imageY,
@@ -142,7 +142,6 @@ cnt = 0;
             if (ret < 0) return (ret);
             
         } else { // !adaptive
-#endif
             
             if (arHandle->arLabelingThreshMode == AR_LABELING_THRESH_MODE_AUTO_MEDIAN || arHandle->arLabelingThreshMode == AR_LABELING_THRESH_MODE_AUTO_OTSU) {
                 // Do an auto-threshold operation.
@@ -167,13 +166,11 @@ cnt = 0;
                 return -1;
             }
             
-#if !AR_DISABLE_THRESH_MODE_AUTO_ADAPTIVE
         }
-#endif
         
         if( arDetectMarker2( arHandle->xsize, arHandle->ysize,
                             &(arHandle->labelInfo), arHandle->arImageProcMode,
-                            AR_AREA_MAX, AR_AREA_MIN, AR_SQUARE_FIT_THRESH,
+                            arHandle->areaMax, arHandle->areaMin, arHandle->squareFitThresh,
                             arHandle->markerInfo2, &(arHandle->marker2_num) ) < 0 ) {
             return -1;
         }

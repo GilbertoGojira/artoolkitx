@@ -363,10 +363,15 @@ typedef struct {
     int                arLabelingThreshAutoIntervalTTL;
     int                arLabelingThreshAutoBracketOver;
     int                arLabelingThreshAutoBracketUnder;
+    int                arLabelingThreshAutoAdaptiveKernelSize;
+    int                arLabelingThreshAutoAdaptiveBias;
     ARImageProcInfo   *arImageProcInfo;
     ARdouble           pattRatio;                           ///< A value between 0.0 and 1.0, representing the proportion of the marker width which constitutes the pattern. In earlier versions, this value was fixed at 0.5.
     AR_MATRIX_CODE_TYPE matrixCodeType;                     ///< When matrix code pattern detection mode is active, indicates the type of matrix code to detect.
     int                arCornerRefinementMode;
+    ARdouble           areaMax;
+    ARdouble           areaMin;
+    ARdouble           squareFitThresh;
 } ARHandle;
 
 
@@ -608,6 +613,14 @@ AR_EXTERN void arSetLabelingThreshModeAutoInterval(ARHandle *handle, const int i
  */
 AR_EXTERN int arGetLabelingThreshModeAutoInterval(const ARHandle *handle);
 
+AR_EXTERN void arSetLabelingThreshAutoAdaptiveKernelSize(ARHandle *handle, const int labelingThreshAutoAdaptiveKernelSize);
+
+AR_EXTERN int arGetLabelingThreshAutoAdaptiveKernelSize(ARHandle *handle);
+
+AR_EXTERN void arSetLabelingThreshAutoAdaptiveBias(ARHandle *handle, const int labelingThreshAutoAdaptiveBias);
+
+AR_EXTERN int arGetLabelingThreshAutoAdaptiveBias(ARHandle *handle);
+    
 /*!
     @brief   Set the image processing mode.
     @details
@@ -814,6 +827,18 @@ AR_EXTERN void arSetPixelFormat(ARHandle *handle, AR_PIXEL_FORMAT pixFormat);
     @see arDetectMarker
  */
 AR_EXTERN AR_PIXEL_FORMAT arGetPixelFormat(ARHandle *handle);
+
+AR_EXTERN void arSetAreaMax(ARHandle *handle, const ARdouble areaMax);
+    
+AR_EXTERN ARdouble arGetAreaMax(ARHandle *handle);
+
+AR_EXTERN void arSetAreaMin(ARHandle *handle, const ARdouble areaMin);
+
+AR_EXTERN ARdouble arGetAreaMin(ARHandle *handle);
+
+AR_EXTERN void arSetSquareFitThresh(ARHandle *handle, const ARdouble squareFitThresh);
+
+AR_EXTERN ARdouble arGetSquareFitThresh(ARHandle *handle);
 
 /*!
     @brief   Enable or disable square tracking subpixel corner refinement.

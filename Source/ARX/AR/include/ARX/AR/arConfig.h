@@ -100,7 +100,7 @@
 
 #define   AR_AREA_MAX                   1000000		// Maximum area (in pixels) of connected regions considered valid candidate for marker detection.
 #define   AR_AREA_MIN                        70		// Minimum area (in pixels) of connected regions considered valid candidate for marker detection.
-#define   AR_SQUARE_FIT_THRESH                1.0
+#define   AR_SQUARE_FIT_THRESH                1.0   // Tolerance value for accepting connected region as square. Greater value = more tolerant.
 
 #define   AR_LABELING_32_BIT                  0     // 0 = 16 bits per label, 1 = 32 bits per label.
 #if AR_LABELING_32_BIT
